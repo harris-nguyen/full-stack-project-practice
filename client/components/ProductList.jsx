@@ -1,4 +1,5 @@
 import React from 'react';
+import ProductListItem from './ProductListItem';
 
 export default class ProductList extends React.Component {
   constructor(props) {
@@ -25,6 +26,22 @@ export default class ProductList extends React.Component {
   }
 
   render() {
-    return null;
+    const data = this.state.products.map((e, index) => {
+      return (
+        <ProductListItem
+          key={index}
+          image={e.image}
+          price={(e.price / 100).toFixed(2)}
+          name={e.name}
+          shortDesc={e.shortDescription}
+          id={e.productId}
+        />
+      );
+    });
+    return (
+      <div className="container ">
+        <div className="row p-4">{data}</div>
+      </div>
+    );
   }
 }

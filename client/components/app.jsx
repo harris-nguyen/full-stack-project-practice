@@ -21,16 +21,16 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="contain">
         <div>
-          <Header text={'Stay ambitious.'}/>
+          <Header text={'Stay ambitious.'} />
         </div>
 
-        <div>
+        <div className=" contain backgroundGrey">
           <ProductList />
         </div>
-      </div>
 
+      </div>
     );
   }
 }
