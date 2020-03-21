@@ -1,3 +1,13 @@
 .whiteFont {
   color: white;
 }
+
+.backgroundGrey {
+  background-color: lightgray;
+}
+
+img {
+  object-fit: contain;
+  height: 310px;
+  width: 100px
+}
