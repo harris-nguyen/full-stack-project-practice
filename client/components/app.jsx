@@ -1,13 +1,18 @@
 import React from 'react';
 import Header from './Header';
 import ProductList from './ProductList';
+import ProductDetails from './ProductDetails';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       message: null,
-      isLoading: true
+      isLoading: true,
+      view: {
+        name: 'catalog',
+        params: {}
+      }
     };
   }
 
@@ -21,13 +26,14 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div className="contain">
+      <div className="">
         <div>
           <Header text={'Stay ambitious.'} />
         </div>
 
-        <div className=" contain backgroundGrey">
+        <div className=" backgroundGrey">
           <ProductList />
+          <ProductDetails />
         </div>
 
       </div>
