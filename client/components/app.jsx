@@ -1,4 +1,6 @@
 import React from 'react';
+import Header from './Header';
+import ProductList from './ProductList';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -18,8 +20,21 @@ export default class App extends React.Component {
   }
 
   render() {
-    return this.state.isLoading
-      ? <h1>Testing connections...</h1>
-      : <h1>{ this.state.message } </h1>;
+    return (
+      <div>
+        <div>
+          <Header text={'Stay ambitious.'}/>
+        </div>
+
+        <div>
+          <ProductList />
+        </div>
+      </div>
+
+    );
   }
 }
+// this.state.isLoading
+// return
+//       ? <h1>{ this.state.message } </h1>
+//       : <Header text={'Stay ambitious.'}/>;
