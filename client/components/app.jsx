@@ -57,7 +57,3 @@ export default class App extends React.Component {
     }
   }
 }
-// this.state.isLoading
-// return
-//       ? <h1>{ this.state.message } </h1>
-//       : <Header text={'Stay ambitious.'}/>;
