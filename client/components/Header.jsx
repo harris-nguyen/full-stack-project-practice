@@ -8,7 +8,14 @@ export default class Header extends React.Component {
           <div className="col-8">{this.props.text}</div>
           <div className="col-2 cartItemSize">
             {this.props.cartItemCount.length} item(s)
-            <div className="fas fa-shopping-cart"></div>
+            <div
+              className="fas fa-shopping-cart"
+              onClick={() =>
+                this.props.setView('cart', {
+                  productId: this.props.productId
+                })
+              }
+            ></div>
           </div>
         </div>
       </div>

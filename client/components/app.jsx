@@ -68,11 +68,8 @@ export default class App extends React.Component {
       return (
         <div>
           <div>
-            <Header text={'Stay ambitious.'} cartItemCount={this.state.cart} />
-          </div>
-
-          <div>
-            <CartSummary
+            <Header
+              text={'Stay ambitious.'}
               cartItemCount={this.state.cart}
               setView={this.setView}
             />
@@ -87,7 +84,11 @@ export default class App extends React.Component {
       return (
         <div>
           <div>
-            <Header text={'Stay ambitious.'} cartItemCount={this.state.cart} />
+            <Header
+              text={'Stay ambitious.'}
+              cartItemCount={this.state.cart}
+              setView={this.setView}
+            />
           </div>
 
           <div className=" backgroundGrey">
@@ -95,6 +96,25 @@ export default class App extends React.Component {
               setView={this.setView}
               product={view.params}
               addToCart={this.addToCart}
+            />
+          </div>
+        </div>
+      );
+    } else if (view.name === 'cart') {
+      return (
+        <div>
+          <div>
+            <Header
+              text={'Stay ambitious.'}
+              cartItemCount={this.state.cart}
+              setView={this.setView}
+            />
+          </div>
+
+          <div>
+            <CartSummary
+              cartItemCount={this.state.cart}
+              setView={this.setView}
             />
           </div>
         </div>
