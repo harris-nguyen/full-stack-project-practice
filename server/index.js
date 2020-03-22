@@ -66,7 +66,27 @@ app.get('/api/products/:productId', (req, res, next) => {
 }
 );
 app.get('/api/cart', (req, res, next) => {
-  res.status(200).json([]);
+
+  if (!('cartId' in req.session)) {
+    return res.status(200).json([]);
+  }
+  const value = [req.session.cartId];
+  const sql = `
+  select "c"."cartItemId",
+        "c"."price",
+        "p"."productId",
+        "p"."image",
+        "p"."name",
+        "p"."shortDescription"
+  from "cartItems" as "c"
+  join "products" as "p" using ("productId")
+  where "c"."cartId" = $1
+  `;
+  db.query(sql, value)
+    .then(data => {
+      res.status(200).json(data.rows[0]);
+    })
+    .catch(err => next(err));
 });
 
 app.post('/api/cart', (req, res, next) => {
@@ -110,11 +130,25 @@ app.post('/api/cart', (req, res, next) => {
         returning "cartItemId"
       `;
 
-      return db
-        .query(sql, values)
-        .then(cartItemId => cartItemId.rows[0]);
+      return db.query(sql, values).then(cartItemId => cartItemId.rows[0]);
     })
-    .then()
+    .then(cartItemId => {
+      const value = [cartItemId.cartItemId];
+      const sql = `
+      select "c"."cartItemId",
+        "c"."price",
+        "p"."productId",
+        "p"."image",
+        "p"."name",
+        "p"."shortDescription"
+      from "cartItems" as "c"
+      join "products" as "p" using ("productId")
+      where "c"."cartItemId" = $1`;
+      return db.query(sql, value)
+        .then(data => {
+          res.status(200).json(data.rows);
+        });
+    })
     .catch(err => next(err));
 
 });
