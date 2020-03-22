@@ -84,7 +84,7 @@ app.get('/api/cart', (req, res, next) => {
   `;
   db.query(sql, value)
     .then(data => {
-      res.status(200).json(data.rows[0]);
+      res.status(200).json(data.rows);
     })
     .catch(err => next(err));
 });

@@ -50,9 +50,8 @@ export default class App extends React.Component {
         <div>
           <div>
             <Header
-              cartItemCount={this.state.cart.length}
               text={'Stay ambitious.'}
-            />
+              cartItemCount={this.state.cart} />
           </div>
 
           <div className=" backgroundGrey">
@@ -66,14 +65,11 @@ export default class App extends React.Component {
           <div>
             <Header
               text={'Stay ambitious.'}
-              cartItemCount={this.state.cart.length}
-            />
+              cartItemCount={this.state.cart} />
           </div>
 
           <div className=" backgroundGrey">
-            <ProductDetails
-              setView={this.setView}
-              product={view.params} />
+            <ProductDetails setView={this.setView} product={view.params} />
           </div>
         </div>
       );
