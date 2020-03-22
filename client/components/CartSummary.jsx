@@ -23,10 +23,10 @@ export default class CartSummary extends React.Component {
               return (
                 <CartSummaryItem
                   key={index}
-                  price={(e.price / 100).toFixed(2)}
-                  image={e.image}
                   name={e.name}
                   shortDesc={e.shortDescription}
+                  price={e.price}
+                  image={e.image}
                 />
               );
             })
