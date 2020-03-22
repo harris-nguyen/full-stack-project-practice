@@ -11,3 +11,7 @@ img {
   height: 310px;
   width: 100px
 }
+
+.cartItemSize {
+  font-size: 14px;
+}
