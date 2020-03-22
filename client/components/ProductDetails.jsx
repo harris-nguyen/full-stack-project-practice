@@ -9,55 +9,48 @@ export default class ProductDetails extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/products/1')
+    const id = this.props.product.productId;
+    fetch(`/api/products/${id}`)
       .then(res => res.json())
       .then(result => {
         this.setState({
-          products: result
+          product: result
         });
-      })
-      .catch(err => console.error(err));
+      }) // eslint-disable-next-line no-console
+      .catch(err => console.err(err));
   }
 
   render() {
-    if (!this.props.product) {
+    const data = this.state.product;
+    if (this.state.product) {
       return (
         <div className="container">
-          <div
-            onClick={() =>
-              this.props.setView('catalog', { })
-            }
-          >Back to Catalog</div>
+          <div onClick={() => this.props.setView('catalog', {})}>
+                           &lt; Back to Catalog
+          </div>
           <div className="row">
             <div className="col-4">
               <img
-                src={this.props.image}
+                src={data.image}
                 className="card-img-top"
-                alt={this.props.name}
+                alt={data.name}
               />
             </div>
 
             <div className="col-8">
-              <div>Title</div>
-              <div>price</div>
-              <div>Short info</div>
+              <div>{data.name}</div>
+              <div className="text-muted">
+                               ${(data.price / 100).toFixed(2)}
+              </div>
+              <div>{data.shortDesc}</div>
             </div>
           </div>
 
-          <div>
-              Im a big believer in winging it. Im a big believer that youre
-              never going to find a perfect city travel experience or the
-              perfect meal without a constant willingness to experience a bad
-              one. Letting the happy accident happen is what a lot of vacation
-              itineraries miss, I think, and m always trying to push people to
-              allow those things to happen rather than stick to some rigid
-              itinerary
-          </div>
+          <div>{data.longDescription}</div>
         </div>
       );
     } else {
       return null;
     }
-
   }
 }
