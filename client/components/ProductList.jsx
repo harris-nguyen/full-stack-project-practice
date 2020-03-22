@@ -30,11 +30,12 @@ export default class ProductList extends React.Component {
       return (
         <ProductListItem
           key={index}
-          image={e.image}
-          price={(e.price / 100).toFixed(2)}
+          productId={e.productId}
           name={e.name}
+          price={(e.price / 100).toFixed(2)}
+          image={e.image}
           shortDesc={e.shortDescription}
-          id={e.productId}
+          setView={this.props.setView}
         />
       );
     });
