@@ -14,30 +14,50 @@ export default class App extends React.Component {
         params: {}
       }
     };
+    this.setView = this.setView.bind(this);
   }
 
   componentDidMount() {
     fetch('/api/health-check')
       .then(res => res.json())
-      .then(data => this.setState({ message: data.message || data.error }))
+      .then(data =>
+        this.setState({ message: data.message || data.error })
+      )
       .catch(err => this.setState({ message: err.message }))
       .finally(() => this.setState({ isLoading: false }));
   }
 
+  setView(name, params) {
+    this.setState({ view: { name, params } });
+  }
+
   render() {
-    return (
-      <div className="">
+    const view = this.state.view;
+    if (view.name === 'catalog') {
+      return (
         <div>
-          <Header text={'Stay ambitious.'} />
-        </div>
+          <div>
+            <Header text={'Stay ambitious.'} />
+          </div>
 
-        <div className=" backgroundGrey">
-          <ProductList />
-          <ProductDetails />
+          <div className=" backgroundGrey">
+            <ProductList setView={this.setView} />
+          </div>
         </div>
+      );
+    } else if (view.name === 'details') {
+      return (
+        <div>
+          <div>
+            <Header text={'Stay ambitious.'} />
+          </div>
 
-      </div>
-    );
+          <div className=" backgroundGrey">
+            <ProductDetails setView={this.setView} />
+          </div>
+        </div>
+      );
+    }
   }
 }
 // this.state.isLoading

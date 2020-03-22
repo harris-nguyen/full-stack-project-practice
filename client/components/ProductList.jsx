@@ -34,7 +34,8 @@ export default class ProductList extends React.Component {
           price={(e.price / 100).toFixed(2)}
           name={e.name}
           shortDesc={e.shortDescription}
-          id={e.productId}
+          setView={this.props.setView}
+          productId={e.productId}
         />
       );
     });
