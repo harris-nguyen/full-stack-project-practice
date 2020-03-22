@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './Header';
 import ProductList from './ProductList';
 import ProductDetails from './ProductDetails';
+import CartSummary from './CartSummary';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -67,9 +68,14 @@ export default class App extends React.Component {
       return (
         <div>
           <div>
-            <Header
-              text={'Stay ambitious.'}
-              cartItemCount={this.state.cart} />
+            <Header text={'Stay ambitious.'} cartItemCount={this.state.cart} />
+          </div>
+
+          <div>
+            <CartSummary
+              cartItemCount={this.state.cart}
+              setView={this.setView}
+            />
           </div>
 
           <div className=" backgroundGrey">
