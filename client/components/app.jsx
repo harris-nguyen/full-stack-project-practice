@@ -49,7 +49,7 @@ export default class App extends React.Component {
       },
       body: JSON.stringify(product)
     })
-      .then(response => response.json())
+      .then(res => res.json())
       .then(data => {
         this.setState({
           cart: this.state.cart.concat(data)

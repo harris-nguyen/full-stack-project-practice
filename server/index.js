@@ -32,7 +32,14 @@ app.get('/api/products', (req, res) => {
   db.query(sql)
     .then(result => {
       const arrData = result.rows;
-      res.status(200).json(arrData);
+      res.status(202).json(arrData);
+    })
+    .catch(err => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.status(400).json({
+        error: 'an unexpected error occurred with get'
+      });
     });
 });
 
@@ -65,33 +72,35 @@ app.get('/api/products/:productId', (req, res, next) => {
     .catch(err => next(err));
 }
 );
+
 app.get('/api/cart', (req, res, next) => {
 
   if (!('cartId' in req.session)) {
     return res.status(200).json([]);
   }
-  const value = [req.session.cartId];
+
   const sql = `
   select "c"."cartItemId",
-        "c"."price",
-        "p"."productId",
-        "p"."image",
-        "p"."name",
-        "p"."shortDescription"
+  "c"."price",
+  "p"."productId",
+  "p"."image",
+  "p"."name",
+  "p"."shortDescription"
   from "cartItems" as "c"
   join "products" as "p" using ("productId")
   where "c"."cartId" = $1
   `;
+
+  const value = [req.session.cartId];
   db.query(sql, value)
     .then(data => {
-      res.status(200).json(data.rows);
+      res.status(201).json(data.rows);
     })
     .catch(err => next(err));
 });
 
 app.post('/api/cart', (req, res, next) => {
   const { productId } = req.body;
-  const value = [productId];
 
   if (!Number(productId)) {
     return next(
@@ -100,10 +109,11 @@ app.post('/api/cart', (req, res, next) => {
   }
 
   const sql = `
-  SELECT "price"
-  FROM "products"
-  WHERE "productId" = $1
-  `;
+    SELECT "price"
+    FROM "products"
+    WHERE "productId" = $1
+    `;
+  const value = [productId];
 
   db.query(sql, value)
     .then(result => {
@@ -150,7 +160,34 @@ app.post('/api/cart', (req, res, next) => {
         });
     })
     .catch(err => next(err));
+});
 
+app.post('/api/orders', (req, res, next) => {
+  const { name, creditCard, shippingAddress } = req.body;
+  const { cartId } = req.session;
+  const values = [cartId, name, creditCard, shippingAddress];
+
+  if (!('cartId' in req.session)) {
+    res.status(400).json({
+      error: 'cartd id does not exits'
+    });
+    if (!name || !creditCard || !shippingAddress) {
+      res.status(400).json({
+        error: 'Name, credit card, and shipping address are needed'
+      });
+    }
+  }
+  const sql = `
+    INSERT INTO "orders" ("cartId", "name", "creditCard", "shippingAddress")
+    VALUES ($1, $2, $3, $4)
+    RETURNING *
+  `;
+  db.query(sql, values)
+    .then(result => {
+      delete req.session.cartId;
+      res.status(200).json(result.rows);
+    })
+    .catch(err => console.error(err));
 });
 
 app.use('/api', (req, res, next) => {
